@@ -1,0 +1,1 @@
+export const Words = ["The", "sun", "is" ,"shining", "brightly" ,"and", "everyone" ,"feels" ,"happy" ,"today"]
