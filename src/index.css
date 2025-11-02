@@ -45,9 +45,10 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  background-color: #e6ab23;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #eb9c41;
 }
 button:focus,
 button:focus-visible {
@@ -56,13 +57,14 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #c39850;
+    background-color: #ebd396;
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #eadebd;
+    margin:5px;
   }
 }
