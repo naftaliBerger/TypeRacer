@@ -1,45 +1,50 @@
-import { useState, useRef} from "react";
+import {useRef, useEffect } from "react";
 
 interface Props {
   onStart: () => void;
   onStop: () => void;
   onClear: () => void;
+  active: boolean;
+  time : number;
+  setTime:React.Dispatch<React.SetStateAction<number>>;
+  seconds : number;
 }
-export default function Timer({ onStart, onStop, onClear }: Props) {
-  const active = useRef<boolean>(false);
-  const [time, setTime] = useState(0);
+export default function Timer({ onStart, onStop, onClear, active,time,setTime,seconds }: Props) {
   const timerRef = useRef<number | null>(null);
-  const startTimeRef = useRef<number | null>(null);
 
   function start() {
-    if (!active.current) {
-      startTimeRef.current = Date.now();
+    if (!active) {
       timerRef.current = setInterval(() => {
-        setTime(Date.now() - (startTimeRef.current ?? 0));
+        setTime((time) => time + 10);
       }, 10);
       onStart();
-      active.current = true;
+      active = true;
     }
   }
 
   function stop() {
     clearInterval(timerRef.current!);
     onStop();
-    active.current = false;
+    active = false;
   }
   function clear() {
     setTime(0);
     clearInterval(timerRef.current!);
     onClear();
-    active.current = false;
+    active = false;
   }
-  const minutes = Math.floor(time / 60000);
-  const seconds = Math.floor(time / 1000);
-  const milliseconds = Math.floor((time % 1000) / 10);
+  useEffect(() => {
+    if (active == false) {
+      stop();
+    }
+  }, [active]);
+  const minutes = Math.floor(time / 60000) ;
+  seconds = seconds % 60;
+  const milliseconds = Math.floor((time % 1000) / 10) % 100;
   return (
     <div>
       <button onClick={start}>start</button>
-      <h3> 
+      <h3>
         {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}:
         {milliseconds.toString().padStart(2, "0")}
