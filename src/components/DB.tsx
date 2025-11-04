@@ -1,1 +1,1 @@
-export const Words = ["The", "sun", "is" ]
+export const Words = ["cat", "dog", "sun", "sky", "fun", "red", "hat", "pen", "car", "box"];

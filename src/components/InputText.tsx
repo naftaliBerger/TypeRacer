@@ -6,7 +6,7 @@ interface Props {
   conter:number;
   setConter : () => void;
   setActive: (bool : boolean) => void;
-  gameOver: boolean;
+  gameOver: (bool : boolean) => void;
 }
 
 export default function InputText({ words,isActive ,conter,setConter,setActive,gameOver}: Props) {
@@ -27,10 +27,8 @@ export default function InputText({ words,isActive ,conter,setConter,setActive,g
       
       if(conter == words.length - 1){
         setActive(false)
-        gameOver = true;
-      }
-      if( gameOver == true){
-        setCorrect("🎉 game over 🎉")
+        gameOver(true);
+        setCorrect("🎉 Excellent!! game over 🎉")
       }
     }
   }
