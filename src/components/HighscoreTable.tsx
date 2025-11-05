@@ -1,18 +1,20 @@
 interface Props {
   seconds: number;
   GameOver: boolean;
+  words:string[];
 }
-export default function HighscoreTable({ seconds, GameOver }: Props) {
+export default function HighscoreTable({ seconds, GameOver,words }: Props) {
+  const Calculation = (words.length * 60) / seconds; 
   let HighscoreArry: number[] = [];
   HighscoreArry = JSON.parse(localStorage.getItem("HighscoreArry") || "[]");
   if (GameOver) {
-    HighscoreArry.push(seconds);
+    HighscoreArry.push(Math.floor(Calculation));
     localStorage.setItem("HighscoreArry", JSON.stringify(HighscoreArry));
   }
-  const maxNumber = Math.min(...HighscoreArry);
+  const minNumber = Math.min(...HighscoreArry);
   return (
     <div>
-      <h3>Your peak : {maxNumber ? maxNumber : 0}</h3>
+      <h3>Your peak : {minNumber ? minNumber : 0}</h3>
     </div>
   );
 }

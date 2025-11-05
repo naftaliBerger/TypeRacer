@@ -28,7 +28,6 @@ export default function Timer({ onStart, onStop, onClear, active,time,setTime,se
     active = false;
   }
   function clear() {
-    // setTime(0);
     window.location.reload()
     clearInterval(timerRef.current!);
     onClear();
@@ -40,18 +39,18 @@ export default function Timer({ onStart, onStop, onClear, active,time,setTime,se
     }
   }, [active]);
   const minutes = Math.floor(time / 60000) ;
-  seconds = seconds % 60;
+  seconds = (seconds) % 60;
   const milliseconds = Math.floor((time % 1000) / 10) % 100;
   return (
     <div>
-      <button onClick={start}>Starting a timer</button>
+      <button onClick={start}>Start timer</button>
       <h3>
         {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}:
         {milliseconds.toString().padStart(2, "0")}
       </h3>
-      <button onClick={stop}>Stoing a timer</button>
-      <button onClick={clear}>Starting a game</button>
+      <button onClick={stop}>Stop timer</button>
+      <button onClick={clear}>Play again</button>
     </div>
   );
 }
