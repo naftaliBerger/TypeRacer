@@ -1,34 +1,29 @@
-import { useRef, useState } from "react";
+import { useContext,useState } from "react";
+import { Logic } from "../Context/Provider";
 
-interface Props {
-  words: string[];
-  isActive: boolean;
-  conter:number;
-  setConter : () => void;
-  setActive: (bool : boolean) => void;
-  gameOver: (bool : boolean) => void;
-}
-
-export default function InputText({ words,isActive ,conter,setConter,setActive,gameOver}: Props) {
-  const inputRef = useRef<HTMLInputElement>(null);
+export default function InputText() {
+  const context = useContext(Logic);
+  if (!context) {
+    throw Error("dfgdfh");
+  }
+  const { words, conter, setCounter, setGameOver, setActive, Active ,inputRef} = context;
   const [correct, setCorrect] = useState("");
   function Testing(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
       e.preventDefault();
       if (inputRef.current?.value === words[conter]) {
-        setCorrect(""); 
+        setCorrect("");
         inputRef.current.value = "";
-        setConter();
+        setCounter();
+      } else {
+        setCorrect("try again !!");
+        
       }
 
-      else {
-        setCorrect("try again !!");
-      }
-      
-      if(conter == words.length - 1){
-        setActive(false)
-        gameOver(true);
-        setCorrect("🎉 Excellent!! game over 🎉")
+      if (conter == words.length - 1) {
+        setActive(false);
+        setGameOver(true);
+        setCorrect("🎉 Excellent!! game over 🎉");
       }
     }
   }
@@ -36,12 +31,12 @@ export default function InputText({ words,isActive ,conter,setConter,setActive,g
   return (
     <div>
       <input
-      className="input"
+        className="input"
         ref={inputRef}
         type="text"
         placeholder="enter your answer"
         onKeyDown={Testing}
-        disabled={!isActive}
+        disabled={!Active}
       />
       <h2>{correct}</h2>
     </div>

@@ -1,49 +1,51 @@
-import {useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
+import { Logic } from "../Context/Provider";
 
-interface Props {
-  onStart: () => void;
-  onStop: () => void;
-  onClear: () => void;
-  active: boolean;
-  time : number;
-  setTime:React.Dispatch<React.SetStateAction<number>>;
-  seconds : number;
-}
-export default function Timer({ onStart, onStop, onClear, active,time,setTime,seconds }: Props) {
+export default function Timer() {
+  const context = useContext(Logic);
+  if (!context) {
+    throw Error("Context missing");
+  }
+  const { setActive, Active, setTime, seconds, time, conter, words,inputRef } = context;
   const timerRef = useRef<number | null>(null);
 
+  useEffect(() => {
+    if (Active) {
+      inputRef.current?.focus();
+    }
+  }, [Active]);
+
   function start() {
-    if (!active) {
+    if (!Active) {
       timerRef.current = setInterval(() => {
         setTime((time) => time + 10);
       }, 10);
-      onStart();
-      active = true;
+      setActive(true);
+      inputRef.current?.focus();
     }
   }
 
   function stop() {
     clearInterval(timerRef.current!);
-    onStop();
-    active = false;
+    setActive(false);
   }
   function clear() {
-    window.location.reload()
+    window.location.reload();
     clearInterval(timerRef.current!);
-    onClear();
-    active = false;
+    setActive(false);
   }
   useEffect(() => {
-    if (active == false) {
+    if (Active == false) {
       stop();
     }
-  }, [active]);
-  const minutes = Math.floor(time / 60000) ;
-  seconds = (seconds) % 60;
+  }, [Active]);
+  const minutes = Math.floor(time / 60000);
   const milliseconds = Math.floor((time % 1000) / 10) % 100;
   return (
     <div>
-      <button onClick={start}>Start timer</button>
+      <button disabled={conter == words.length} onClick={start}>
+        Start timer
+      </button>
       <h3>
         {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}:
